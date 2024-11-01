@@ -3,14 +3,18 @@ const { StatusCodes } = require("http-status-codes");
 const User = require("../models/user.model");
 
 const getAllGames = async (req, res) => {
-  const { userId } = req.user;
-  const games = await Game.getAllGames(userId);
-  return res.status(StatusCodes.OK).json({ games });
+  try {
+    const { userId } = req.user;
+    const games = await Game.getAllGames(userId);
+    return res.status(StatusCodes.OK).json({ games });
+  } catch (error) {
+    console.log(error);
+    
+  }
 };
 
 const getAllGamesByUserId = async (req, res) => {
   const userId = req.query.id;
-  console.log(userId);
   const games = await Game.getAllGames(userId);
   return res.status(StatusCodes.OK).json({ games });
 };
@@ -38,7 +42,6 @@ const updateGameById = async (req, res) => {
 const deleteGameByIdUser = async (req, res) => {
   const { id } = req.params;
   const game = await Game.deleteGameByIdUser(id);
-  console.log(game);
     return res
       .status(StatusCodes.OK)
       .send({ record_updated: "delete successfully!" });

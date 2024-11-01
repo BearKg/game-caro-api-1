@@ -7,6 +7,7 @@ const {
   CustomAPIError,
 } = require("../errors");
 const jwt = require("jsonwebtoken");
+
 const registerController = async (req, res) => {
   const user = await User.register({ ...req.body });
   const token = User.createJWT(user[0].ID, user[0].USERNAME, false);
@@ -20,9 +21,7 @@ const registerController = async (req, res) => {
 };
 
 const loginController = async (req, res) => {
-  console.log(req);
   const { username, password } = req.body;
-  console.log(req.body);
   if (!username || !password)
     throw new BadRequestError("Please provide username and password!");
 
@@ -76,7 +75,6 @@ const loginControllerForAdmin = async (req, res) => {
 };
 
 const logoutController = (req, res) => {
-  console.log(req.token);
   res.cookie("newtoken", null, {
     expires: new Date(Date.now()),
   });
